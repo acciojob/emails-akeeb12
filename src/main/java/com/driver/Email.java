@@ -1,11 +1,10 @@
 package com.driver;
 
 public class Email {
-
     private String emailId;
     private String password;
 
-    public Email(String emailId){
+    public Email(String emailId) {
         this.emailId = emailId;
         this.password = "Accio@123";
     }
@@ -18,12 +17,31 @@ public class Email {
         return password;
     }
 
-    public void changePassword(String oldPassword, String newPassword){
-        //Change password only if the oldPassword is equal to current password and the new password meets all of the following:
-        // 1. It contains at least 8 characters
-        // 2. It contains at least one uppercase letter
-        // 3. It contains at least one lowercase letter
-        // 4. It contains at least one digit
-        // 5. It contains at least one special character. Any character apart from alphabets and digits is a special character
+    public void changePassword(String oldPassword, String newPassword) {
+        if (!oldPassword.equals(this.password)) {
+            System.out.println("Old password is incorrect");
+            return;
+        }
+        if (isValidPassword(newPassword)) {
+            this.password = newPassword;
+            System.out.println("Password changed successfully");
+        } else {
+            System.out.println("New password does not meet the criteria");
+        }
+    }
+
+    private boolean isValidPassword(String password) {
+        if (password.length() < 8) return false;
+        boolean hasUppercase = false;
+        boolean hasLowercase = false;
+        boolean hasDigit = false;
+        boolean hasSpecialChar = false;
+        for (char c : password.toCharArray()) {
+            if (Character.isUpperCase(c)) hasUppercase = true;
+            else if (Character.isLowerCase(c)) hasLowercase = true;
+            else if (Character.isDigit(c)) hasDigit = true;
+            else hasSpecialChar = true;
+        }
+        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
     }
 }

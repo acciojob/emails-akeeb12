@@ -3,5 +3,9 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/.." vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../encapsulation-akeeb12" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../method-overriding-akeeb12" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../polymorphism-akeeb12" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../vehicles-akeeb12" vcs="Git" />
   </component>
 </project>
