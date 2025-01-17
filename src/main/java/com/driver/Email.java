@@ -2,7 +2,7 @@ package com.driver;
 
 public class Email {
     private String emailId;
-    private String password;
+    private String password;    
 
     public Email(String emailId) {
         this.emailId = emailId;
@@ -18,34 +18,31 @@ public class Email {
     }
 
     public void changePassword(String oldPassword, String newPassword) {
-        if (!oldPassword.equals(this.password)) {
-            System.out.println("Old password is incorrect");
-            return;
-        }
-        if (isValidPassword(newPassword)) {
-            this.password = newPassword;
-            System.out.println("Password changed successfully");
-        } else {
-            System.out.println("New password does not meet the criteria");
+        if(oldPassword.equals(this.password) && newPassword.length() >= 8){
+            if(check(newPassword) == true){
+                this.password = newPassword;
+                System.out.println("Password changed successfylly.");
+            }
         }
     }
 
-    private boolean isValidPassword(String password) {
-        if (password.length() < 8) return false;
-        boolean hasUppercase = false;
-        boolean hasLowercase = false;
-        boolean hasDigit = false;
-        boolean hasSpecialChar = false;
-        for (char c : password.toCharArray()) {
-            if (Character.isUpperCase(c)) hasUppercase = true;
-            else if (Character.isLowerCase(c)) hasLowercase = true;
-            else if (Character.isDigit(c)) hasDigit = true;
-            else hasSpecialChar = true;
+    private boolean check(String newPassword) {
+       int Upper = 0,Lower = 0,Digit = 0, Specialc=0;
+       for(int i = 0; i < newPassword.length(); i++){
+        char ch = newPassword.charAt(i);
+        if(ch >= 'A' && ch <= 'Z'){
+            Upper++;
+        }else if(ch >= 'a' && ch <= 'z'){
+            Lower++;
+        }else if(ch >= '0' && ch <= '9'){
+            Digit++;
+        }else{
+            Specialc++;
         }
-        return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
-    }
-
-    public void setEmailId(String emailId) {
-        this.emailId = emailId;
+       }
+       if(Upper >= 1 && Lower >= 1 && Digit >= 1 && Specialc >= 1){
+        return true;
+       }
+       return false;
     }
 }

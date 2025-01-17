@@ -2,50 +2,62 @@ package com.driver;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Deque;
+import java.util.LinkedList;
 
 public class Gmail extends Email {
-    private int inboxCapacity;
-    private ArrayList<Mail> inbox;
+    int inboxCapacity;
+    private Deque<Mail> inbox;
     private ArrayList<Mail> trash;
 
     public Gmail(String emailId, int inboxCapacity) {
         super(emailId);
         this.inboxCapacity = inboxCapacity;
-        this.inbox = new ArrayList<>();
-        this.trash = new ArrayList<>();
+        inbox = new LinkedList<>();
+        trash = new ArrayList<>();
     }
 
     public void receiveMail(Date date, String sender, String message) {
-        if (inbox.size() == inboxCapacity) {
-            trash.add(inbox.remove(0));
+        if (inbox.size() < inboxCapacity) {
+            inbox.addLast(new  Mail(date, sender, message));    
+        }else if(inbox.size() >= inboxCapacity){
+            Mail m = inbox.removeFirst();
+            trash.add(m);
+            inbox.addLast(new Mail(date, sender, message));
         }
-        inbox.add(new Mail(date, sender, message));
     }
-
+    
     public void deleteMail(String message) {
-        for (Mail mail : inbox) {
-            if (mail.getMessage().equals(message)) {
-                trash.add(mail);
-                inbox.remove(mail);
+        for (Mail m : inbox) {
+            String s = m.getMessage();
+            
+            if (s.equals(message) == true) {
+                trash.add(m);
+                inbox.remove(m);
                 break;
             }
         }
     }
 
     public String findLatestMessage() {
-        if (inbox.isEmpty()) return null;
-        return inbox.get(inbox.size() - 1).getMessage();
+        if (inbox.size() == 0) return null;
+        else{
+        return inbox.getLast().getMessage();
     }
+}
 
     public String findOldestMessage() {
-        if (inbox.isEmpty()) return null;
-        return inbox.get(0).getMessage();
+        if (inbox.size()==0) return null;
+        else{
+        return inbox.getFirst().getMessage();
+        }
     }
 
     public int findMailsBetweenDates(Date start, Date end) {
         int count = 0;
         for (Mail mail : inbox) {
-            if (!mail.getDate().before(start) && !mail.getDate().after(end)) {
+            Date date = mail.getDate();
+            if (date.before(start) && date.after(end) || (!date.before(start)) && (!date.after(end))) {
                 count++;
             }
         }
@@ -70,19 +82,19 @@ public class Gmail extends Email {
 }
 
 class Mail {
-    private Date date;
-    private String sender;
-    private String message;
+     Date date;
+     String sender;
+     String message;
 
     public Mail(Date date, String sender, String message) {
         this.date = date;
         this.sender = sender;
         this.message = message;
     }
-
-    public Mail() {
+    
+    public void setDate(Date date){
+        this.date = date;
     }
-
     public Date getDate() {
         return date;
     }
@@ -90,8 +102,14 @@ class Mail {
     public String getSender() {
         return sender;
     }
+    public void setSender(String sender){
+        this.sender = sender;
+    }
 
     public String getMessage() {
         return message;
+    }
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
