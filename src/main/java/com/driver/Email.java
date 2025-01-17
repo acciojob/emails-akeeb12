@@ -44,4 +44,8 @@ public class Email {
         }
         return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
     }
+
+    public void setEmailId(String emailId) {
+        this.emailId = emailId;
+    }
 }
